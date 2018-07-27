@@ -6,18 +6,10 @@ import bson.binary
 import bson.objectid
 import bson.errors
 
-from flask_cors import CORS
 from bson.objectid import ObjectId
 from flask import Flask, redirect, make_response
-from flask_restful import Api, Resource
+from flask_restful import Resource
 from .utilb import *
-
-app = Flask(__name__)
-api = Api(app)
-
-app.debug = True
-CORS(app, supports_credentials=True)
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
 
 
 class Index(Resource):
@@ -29,7 +21,7 @@ class Index(Resource):
             <!doctype html>
             <html>
             <body>
-            <form action='/docs/upload/' method='post' enctype='multipart/form-data'>
+            <form action='upload/' method='post' enctype='multipart/form-data'>
              <input type="text" name="name">
              <input type="text" name="homeWork">
              <input type="textarea" name="comments">
@@ -142,4 +134,5 @@ class HomeworkInfoAPI(Resource):
 
         except Exception as e:
             return {'msg': '信息不存在'}, 404
+
 
