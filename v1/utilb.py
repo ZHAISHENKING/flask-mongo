@@ -1,10 +1,5 @@
-import os
-import hashlib
-import time, datetime
-import pymongo
-import bson.binary
-import bson.objectid
-import bson.errors
+import os,re, hashlib, time, datetime, pymongo
+from bson import binary, objectid, errors
 from .config import ALLOWED_EXTENSIONS, CLIENT
 from io import BytesIO
 from flask import jsonify, request
@@ -26,7 +21,11 @@ def save_file(f):
     content.seek(0, os.SEEK_SET)
     try:
         filename = secure_filename(f.filename)
-        mime = filename.rsplit('.', 1)[1]
+        if filename:
+            if '.' in filename:
+                mime = filename.rsplit('.', 1)[1]
+            else:
+                mime = filename
         t = str(time.time())
         str1 = filename + t
         hash1 = hashlib.md5()
@@ -38,7 +37,7 @@ def save_file(f):
     except IOError:
         return 0
     c = dict(
-        content=bson.binary.Binary(content.getvalue()),
+        content=binary.Binary(content.getvalue()),
         mime=mime,
         time=datetime.datetime.utcnow(),
         md5=toHash,
