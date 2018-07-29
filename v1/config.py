@@ -23,5 +23,4 @@ ALLOWED_EXTENSIONS=dict([
         ])
 
 uri = 'localhost:27017'
-# uri = 'mongodb://jamie:jamie199469@localhost:27676/ultrabear_homework'
 CLIENT = pymongo.MongoClient(uri)
